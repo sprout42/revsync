@@ -213,9 +213,9 @@ def onmsg(bv, key, data, replay):
             if struct:
                 bv.undefine_user_type(struct_name)
 
-            if post3:
+            try:
                 struct = binaryninja.types.StructureBuilder.create(type=StructureVariant.StructStructureType)
-            else:
+            except NameError:
                 struct = binaryninja.types.Structure()
 
             bv.define_user_type(struct_name, binaryninja.types.Type.structure_type(struct))
