@@ -375,7 +375,7 @@ def watch_structs(bv):
                         # binja can't really handle unions at this time
                         publish(bv, {'cmd': 'struc_created', 'struc_name': str(struct_name), 'is_union': False})
                         # if there are already members, publish them
-                        members = member_dict_from_list(struct.typedef.members)
+                        members = member_dict_from_list(struct.typedef().members)
                         if members:
                             for member_name, member_def in members.items():
                                 publish(bv, {'cmd': 'struc_member_created', 'struc_name': str(struct_name), 'offset': member_def.offset, 'member_name': member_name, 'size': member_def.type.width, 'flag': None})
@@ -387,8 +387,8 @@ def watch_structs(bv):
                         publish(bv, {'cmd': 'struc_renamed', 'old_name': str(last_name), 'new_name': str(struct_name)})
 
                     # check for member differences
-                    members = member_dict_from_list(struct.typedef.members)
-                    last_members = member_dict_from_list(last_struct.typedef.members)
+                    members = member_dict_from_list(struct.typedef().members)
+                    last_members = member_dict_from_list(last_struct.typedef().members)
 
                     # first checks for deletions
                     removed_members = set(last_members.keys()) - set(members.keys())
