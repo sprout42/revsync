@@ -212,7 +212,12 @@ def onmsg(bv, key, data, replay):
             # if a struct with the same name already exists, undefine it
             if struct:
                 bv.undefine_user_type(struct_name)
-            struct = binaryninja.types.Structure()
+
+            if post3:
+                struct = binaryninja.types.StructureBuilder.create(type=StructureVariant.StructStructureType)
+            else:
+                struct = binaryninja.types.Structure()
+
             bv.define_user_type(struct_name, binaryninja.types.Type.structure_type(struct))
             state.structs = get_structs(bv)
             log_info('revsync: <%s> %s %s' % (user, cmd, struct_name))
